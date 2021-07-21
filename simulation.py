@@ -13,7 +13,7 @@ binance_sim_commands_final_list = []
 def get_binance_sim_commands_list(start_date, end_date, exchange, crypto_pair, strategies):
     command = "./zenbot.sh sim " + exchange + "." + crypto_pair
     for x in strategies:
-        binance_sim_commands_list.append(command + " --strategy " + x + " " + "--filename " + "/home/linas/zenbot/simulations/" + crypto_pair + "/" + x + "_")
+        binance_sim_commands_list.append(command + " --strategy " + x + " " + "--filename " + os.getcwd() + "/simulations/" + crypto_pair + "/" + x + "_")
     for i in range(start_date, end_date+1):
         for z in binance_sim_commands_list:
             binance_sim_commands_final_list.append(z + exchange + "_" + crypto_pair + "_" + months_list[i].split(" ")[0] + "_" + months_list[i].split(" ")[1] + ".html" + " --start " + months_list[i].split(' ')[0] + " --end " + months_list[i].split(' ')[1] + " --buy_pct 1 " + "--sell_pct 1 " + "--silent")

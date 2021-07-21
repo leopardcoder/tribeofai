@@ -1,0 +1,137 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cryptocurrency trading statistics</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input type="file" onchange="readFileToArray(this)">
+
+<script>
+    let bodyElement = document.documentElement.querySelector('body')
+
+    let monthsList = [202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106]
+    let strategiesList = ['ehlers_trend', 'ta_srsi_bollinger', 'ta_ppo', 'ti_bollinger', 'trend_ema', 'ta_ema', 'ta_stoch_bollinger', 'bollinger', 'neural', 'ti_hma', 'kc', 'macd', 'renko', 'multi', 'dema', 'cci_srsi', 'noop', 'pivot', 'trend_bollinger', 'crossover_vwap', 'srsi_macd', 'trust_distrust', 'speed', 'ti_stoch', 'ta_trix', 'ti_stoch_bollinger', 'ta_macd', 'wavetrend', 'ta_macd_ext', 'trendline', 'vpt', 'sar', 'rsi', 'ichimoku', 'ta_ultosc', 'momentum', 'ehlers_mama', 'stddev', 'ichimoku_score', 'ehlers_ft']
+    let backtestingResults = ['-', '-','-','-','-','-','-','-','-','-','-','-', '-']
+    let dict = {'currency_qnt': 998.4957923, 'hold_balance': 999.4737261076076, 'total_trades': 3, 'total_sells': 2, 'total_loses': 2, 'strategy': 'pivot', 'days': 3, 'currency_exchange': 'binance.BNB-RUB', 'win_loss': 0.0, 'error_rate': 50.0, 'asset': 'BNB', 'currency': 'RUB', 'exchange_id': 'binance', 'start_date': 1601499600000, 'end_date': 0, 'period': '20201001_20201031'}
+    let arrayOfDictionaries = []
+
+
+
+
+    function createRowHeader() {
+    let table = bodyElement.appendChild(document.createElement('table'))
+    let tableCaption = table.appendChild(document.createElement('caption'))
+    tableCaption.innerHTML = '2020-06-01 - 2021-06-01' +
+    '<br /> ETH-BTC pair traiding results'+
+        '<br />starting trading sum: 1000eur/month'
+
+
+    let tableHeaderRow = table.appendChild(document.createElement('tr'))
+    tableHeaderRow.appendChild(document.createElement('td'))
+
+        for (let x = 0; x < monthsList.length; x++) {
+            let tableHeader = tableHeaderRow.appendChild(document.createElement('td'))
+            console.log(monthsList[x])
+            tableHeader.textContent = monthsList[x]
+            tableHeader.setAttribute('scope', 'col')
+        }
+    }
+
+    function createColumnHeader() {
+        // let strategyNameRow =
+        for (let x = 0; x < strategiesList.length; x++) {
+            let table = document.querySelector('table')
+            let newTableRows = table.appendChild(document.createElement('tr'))
+            let tableHeaderColumn = newTableRows.appendChild(document.createElement('th'))
+            tableHeaderColumn.setAttribute('scope', 'row')
+            tableHeaderColumn.textContent = strategiesList[x]
+
+            for (let x = 0; x < backtestingResults.length; x++) {
+                let strategyData = newTableRows.appendChild(document.createElement('td'))
+                strategyData.textContent = backtestingResults[x]
+            }
+        }
+    }
+
+    function chooseStrategyRowToFill(array) {
+        for (let x = 0; x < array.length; x++) {
+            let jsonDictionary = JSON.parse(array[x].replace(/'/g, '"'))
+            console.log(jsonDictionary)
+            for (const [key, value] of Object.entries(jsonDictionary)) {
+                for (let rowNumber = 0; rowNumber < strategiesList.length; rowNumber++) {
+                    if (key == 'strategy' && value == strategiesList[rowNumber]) {
+
+                        console.log(rowNumber)
+                        fillCellPeriodInfo(jsonDictionary, rowNumber)
+
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    function fillCellPeriodInfo(dictionary, rowNumber) {
+        let nThRow = document.querySelectorAll('tr')[rowNumber+1]
+        let nThCell = nThRow.querySelectorAll('td')
+        for (const [key, value] of Object.entries(dictionary)) {
+            for (let x = 0; x < monthsList.length; x++) {
+                if (key == 'period' && value.split("_")[0].slice(0,6) == monthsList[x]) {
+                    nThCell[x].innerHTML = `Profit:${Math.round(dictionary["currency_qnt"]*100/1000-100)}% <br />Holding profit:${Math.round(dictionary["hold_balance"]*100/1000-100)}%`
+// Profitable sales: ${Math.round(dictionary["win_loss"])}% <br />
+                    if (dictionary["currency_qnt"] > dictionary["hold_balance"] && Math.round(dictionary["currency_qnt"]*100/1000-100) > 0) {
+                        nThCell[x].bgColor = 'green'
+                    } else if (dictionary["hold_balance"] > dictionary["currency_qnt"] && Math.round(dictionary["hold_balance"]*100/1000-100) > 0) {
+                        nThCell[x].bgColor = 'yellow'
+                    } else if (Math.round(dictionary["currency_qnt"]*100/1000-100) <= 0 && Math.round(dictionary["hold_balance"]*100/1000-100) <= 0) {
+                        nThCell[x].bgColor = 'red'
+                    }
+                }
+            }
+        }
+    }
+
+
+    function createTable() {
+        createRowHeader()
+        createColumnHeader()
+    }
+
+    function fillTable() {
+    let rowNumber =
+    fillCellPeriodInfo(dict, rowNumber)
+    }
+
+    createTable()
+    // fillTable()
+
+    function readFileToArray(input) {
+        let file = input.files[0];
+        let reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function() {
+            arrayOfDictionaries = reader.result.split("\n")
+            console.log('test')
+            console.log(arrayOfDictionaries)
+            chooseStrategyRowToFill(arrayOfDictionaries)
+        };
+
+        reader.onerror = function() {
+            console.log(reader.error);
+        };
+
+    }
+
+function convertStringToJsonDict() {
+
+}
+
+</script>
+
+
+</body>
+</html>

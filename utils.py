@@ -1,4 +1,4 @@
-import main, os
+import main, os, json
 from datetime import datetime
 from preparation_data import *
 from calendar import monthrange
@@ -6,13 +6,10 @@ from calendar import monthrange
 binance_products = []
 period_days_array = []
 
-def read_from_file(file_name, array, exchange):
-    print(file_name)
+def read_from_file(file_name, array):
     with open(file_name, 'r') as file:
-        for line in file:
-            if "'binance'" in line:
-                current_line = line[:-1]
-                array.append(current_line)
+            for line in file:
+                array.append(json.loads(line))
 
 def get_today_date():
     now = datetime.now()
@@ -23,7 +20,7 @@ def get_today_date_zenbot_format():
     return now.strftime("%Y%m%d%H%M")
 
 def create_dir(crypto_pair):
-    dir_name = '/home/linas/zenbot/simulations/' + crypto_pair
+    dir_name = os.getcwd() + '/simulations/' + crypto_pair
     try:
         os.makedirs(dir_name)
         print("Directory " , dir_name ,  " Created ")

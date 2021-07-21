@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import glob, subprocess, json, re, shutil
+import glob, subprocess, json, re, shutil, os
 import main
 from utils import *
 
@@ -12,7 +12,7 @@ sim_output_file_name = ''
 sim_results_file_name = ''
 
 def create_scraping_list(crypto_pair):
-    sim_files_list = glob.glob("/home/linas/zenbot/simulations/" + crypto_pair + "/*")
+    sim_files_list = glob.glob(os.getcwd() + "/simulations/" + crypto_pair + "/*")
     for one_file in sim_files_list:
     	if 'html' in one_file:
     		list_for_scraping.append(one_file.split('/')[-1])
@@ -21,7 +21,7 @@ def scrape(crypto_pair):
     global sim_results_dictionary
     create_scraping_list(crypto_pair)
     for html in list_for_scraping:
-    	url = "/home/linas/zenbot/simulations/" + crypto_pair + "/" + html
+    	url = os.getcwd() + "/simulations/" + crypto_pair + "/" + html
     	page = open(url)
     	soup = BeautifulSoup(page.read(), 'html.parser')
     	raw_text = soup.code.get_text()
@@ -52,15 +52,15 @@ def write_results_to_dictionary(period, crypto_pair):
     append_results_to_file(dict, crypto_pair)
 
 def append_results_to_file(dictionary, crypto_pair):
-    url = "/home/linas/zenbot/simulations/" + crypto_pair + "/"
+    url = os.getcwd() + "/simulations/" + crypto_pair + "/"
     sim_output_file_name = url + "simulation_results" + "_" + str(dict["currency"]) + "_" + str(dict["asset"]) + "_" + get_today_date() + ".txt"
     with open(sim_output_file_name, 'a') as file:
         file.write('%s\n' % dictionary)
     file.close()
 
 def move_scraped_files(file_name, crypto_pair):
-    directory = r'/home/linas/zenbot/simulations/' + crypto_pair + '/'
-    scraped_files_directory = r'/home/linas/zenbot/simulations/scraped/'
+    directory = os.getcwd() + r'/simulations/' + crypto_pair + '/'
+    scraped_files_directory = os.getcwd() + r'/simulations/scraped/'
     shutil.move(directory + file_name, scraped_files_directory + file_name)
     print("File moved successfuly")
 
