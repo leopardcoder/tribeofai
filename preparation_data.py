@@ -1,4 +1,4 @@
-import main
+from main import *
 import glob, subprocess, json, re, shutil, os
 from utils import *
 
@@ -22,11 +22,9 @@ def get_binance_selector():
         binance_selectors.append(exchange + '.' + y['asset'] + '-' + y['currency'])
 
 def check_if_crypto_pair_exists(crypto_pair):
-    print('we are here')
     for x in binance_selectors:
         if x.endswith(crypto_pair) == True:
             print("Crypto pair found...")
             return
-        else:
-            print("crypto pair doesnt exist")
-    #exit()
+    print("Crypto pair doesnt EXIST")
+    exit() # i use exit, because in a case crypto pair doesnt found i want script to be terminated.

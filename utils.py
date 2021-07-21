@@ -6,6 +6,10 @@ from calendar import monthrange
 binance_products = []
 period_days_array = []
 
+def read_info_file(file_name):
+    with open(file_name, 'r') as file:
+        print(file.read())
+
 def read_from_file(file_name, array):
     with open(file_name, 'r') as file:
             for line in file:
@@ -28,18 +32,18 @@ def create_dir(crypto_pair):
         print("Directory " , dir_name ,  " already exists")
 
 def get_days_of_month(date):
-  year = str(date)[0:4]
-  month = str(date)[slice(4,6)]
-  num_days = monthrange(int(year), int(month))[1]
-  for x in range(1, num_days):
-    if x >= 10:
-      period_days_array.append(str(date) + str(x))
-    else:
-      period_days_array.append(str(date) + str(0) + str(x))
+    year = str(date)[0:4]
+    month = str(date)[slice(4,6)]
+    num_days = monthrange(int(year), int(month))[1]
+    for x in range(1, num_days):
+        if x >= 10:
+            period_days_array.append(str(date) + str(x))
+        else:
+            period_days_array.append(str(date) + str(0) + str(x))
 
 def get_period_months(period):
-  start_date = period.split('-')[0]
-  end_date = period.split('-')[1]
+    start_date = period.split('-')[0]
+    end_date = period.split('-')[1]
 
-  for x in range(int(start_date), int(end_date)+1):
-    get_days_of_month(x)
+    for x in range(int(start_date), int(end_date)+1):
+        get_days_of_month(x)
