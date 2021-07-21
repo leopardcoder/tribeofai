@@ -1,4 +1,5 @@
 Hello! Wellcome to Zenbot trading bot script. You can download Zenbot here: https://github.com/DeviaVir/zenbot
+After installing Zenbot, put these files into main directory of Zenbot.
 
  With this script you will get data about 40 different strategies profits or losses of cryptocurrencies of your choice. 
  Based on this data you will be able to decide which strategy to choose for trading.
