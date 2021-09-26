@@ -64,11 +64,11 @@ def append_results_to_file(dictionary, crypto_pair):
     str(crypto_info["currency"]) + "_" + str(crypto_info["asset"]) + "_" + \
     get_today_date() + ".txt"
     with open(sim_output_file_name, 'a') as file:
-        file.write('%s\n' % dictionary)
+        file.write('%s\n' % dictionary)  # dont use % google f-strings...
     file.close()
 
 def move_scraped_files(file_name, crypto_pair):
-    directory = os.getcwd() + r'/simulations/' + crypto_pair + '/'
+    directory = os.getcwd() + r'/simulations/' + crypto_pair + '/'       # r' dont use if it is unuseful...
     scraped_files_directory = os.getcwd() + r'/simulations/scraped/'
     shutil.move(directory + file_name, scraped_files_directory + file_name)
     print("File moved successfuly")

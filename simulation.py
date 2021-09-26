@@ -12,21 +12,20 @@ months_list = ['20200601 20200630', '20200701 20200731', '20200801 20200831',
 binance_sim_commands_list = []
 get_binance_sim_commands_list = []
 binance_sim_commands_final_list = []
-
+# to many prints, have a silent option in configuration... a) only errors b) ... c) ...
 
 def get_binance_sim_commands_list(start_date, end_date, exchange, crypto_pair,
 strategies):
-
     command = "./zenbot.sh sim " + exchange + "." + crypto_pair
     for x in strategies:
-        binance_sim_commands_list.append(command + " --strategy " + x + " " + \
-        "--filename " + os.getcwd() + "/simulations/" + crypto_pair + \
-        "/" + x + "_")
+        binance_sim_commands_list.append(command + " --strategy " + x + " " + \  # code formaters google to do everything for me.
+        "--filename " + os.getcwd() + "/simulations/" + crypto_pair + \ # f-string google ..
+        "/" + x + "_")  # /simulations/ used to often, use configuration. create json file with folder location
 
     for i in range(start_date, end_date+1):
         for z in binance_sim_commands_list:
-            binance_sim_commands_final_list.append(z + exchange + "_" + \
-            crypto_pair + "_" + months_list[i].split(" ")[0] + \
+            binance_sim_commands_final_list.append(z + exchange + "_" + \ # f-string google .. will look beautiful
+            crypto_pair + "_" + months_list[i].split(" ")[0] + \ # create extra variables for readability...
             "_" + months_list[i].split(" ")[1] + ".html" + \
             " --start " + months_list[i].split(' ')[0] + \
             " --end " + months_list[i].split(' ')[1] + \

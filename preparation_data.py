@@ -1,15 +1,15 @@
 from main import *
 import glob, subprocess, json, re, shutil, os
-from utils import *
+from utils import * # dont use or use function name.
 
-sim_files_list = glob.glob(os.getcwd() + "/simulations/*")
-strategies_dir_list = glob.glob(os.getcwd() + "/extensions/strategies/*/")
+sim_files_list = glob.glob(os.getcwd() + "/simulations/*") # hungarian notation list...
+strategies_dir_list = glob.glob(os.getcwd() + "/extensions/strategies/*/") # hungarian notation
 strategies = []
 binance_products = []
 json_binance_products = []
 binance_selectors = []
 exchange = 'binance'
-all_products = 'visi_Produktai.json'
+all_products = 'visi_Produktai.json' # dont do lithuanian naming.
 
 def get_strategy_names():
     print(sim_files_list, strategies_dir_list)
